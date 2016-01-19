@@ -15,6 +15,7 @@ while read dire ;do
 	if [[ ! -e $dire/$imagen ]] ; then   								#Se asegura de que no exista
         cp -n "$imagen" "$dire/$imagen"           						#Copia la imagen en el directorio
         hora=$(($RANDOM%10000))
+        echo $hora >> "$dire/$imagen"									#Añade números al final para que el hash de cada imagen sea distinto y no se pueda hacer una búsqueda por md5
         touch -t "$hora hours ago" "$dire/$imagen"						# Cambia la fecha de modificación para que no sea fácil de encontrar
         echo $dire/$imagen >> ~/.caged.log            					#Guarda log por si se enfadan
     fi
