@@ -12,12 +12,13 @@ contador=0
 while read dire ;do
 	((contador++))
 	imagen="$((($contador%22)+1)).jpg"
+	imagen2=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $((($RANDOM%20)+1)) | head -n 1)".jpg"
 	if [[ ! -e $dire/$imagen ]] ; then   								#Se asegura de que no exista
-        cp -n "$imagen" "$dire/$imagen"           						#Copia la imagen en el directorio
+        cp -n "$imagen" "$dire/$imagen2"           						#Copia la imagen en el directorio
         hora=$(($RANDOM%10000))
-        echo $hora >> "$dire/$imagen"									#Añade números al final para que el hash de cada imagen sea distinto y no se pueda hacer una búsqueda por md5
-        touch -t "$hora hours ago" "$dire/$imagen"						# Cambia la fecha de modificación para que no sea fácil de encontrar
-        echo $dire/$imagen >> ~/.caged.log            					#Guarda log por si se enfadan
+        echo $hora >> "$dire/$imagen2"									#Añade números al final para que el hash de cada imagen sea distinto y no se pueda hacer una búsqueda por md5
+        touch -t "$hora hours ago" "$dire/$imagen2"						# Cambia la fecha de modificación para que no sea fácil de encontrar
+        echo $dire/$imagen2 >> ~/.caged.log            					#Guarda log por si se enfadan
     fi
 done < directorios
 
@@ -28,4 +29,3 @@ while read r; do
 	rm -f "$r"; 
 done < ~/.caged.log
 rm -f ~/.caged.log
-
